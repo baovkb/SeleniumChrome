@@ -7,7 +7,6 @@ import random, time, pf
 class Twitter():
     def __init__(self, gologin:pf.ProfileGL):
         gologin.openTab('https://mobile.twitter.com')
-        self.tab_id = gologin.driver.current_window_handle
 
     def isLogin(self, gologin:pf.ProfileGL) -> bool:
         try:
@@ -41,7 +40,7 @@ class Twitter():
     def login(self, gologin: pf.ProfileGL, password):
         driver = gologin.driver
         wait = WebDriverWait(driver, 5)
-        username = file.getInfoProfile(gologin.id)
+        username = file.getInfoProfile(gologin.profile_id)
         username = username['userTwitter']
         gologin.navigate('https://mobile.twitter.com/i/flow/login')
         try:
@@ -141,7 +140,7 @@ class Twitter():
 
 
     def getNewestTweet(self, gologin: pf.ProfileGL) -> str:
-        Info = file.getInfoProfile(gologin.id)
+        Info = file.getInfoProfile(gologin.profile_id)
         driver = gologin.driver
         driver.get(Info['linkTwitter'])
         #get link quote retweet
@@ -153,7 +152,7 @@ class Twitter():
 
     def commment(self, gologin: pf.ProfileGL, numTag = 0):
         driver = gologin.driver
-        Info = file.getInfoProfile(gologin.id)
+        Info = file.getInfoProfile(gologin.profile_id)
         # text = random_text(numTag)
         # text = text + '\n' + Info['evm']
         text = Info['evm']

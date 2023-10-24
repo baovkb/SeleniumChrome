@@ -93,6 +93,8 @@ class ProfileGL():
             self.openTab(listUrl[j], False)
             j = j + 1
         self.driver.switch_to.window(self.driver.window_handles[0])
+    def navigate(self, url:str):
+        self.driver.get(url)
 
 def openProfile(indexProfile, proxy = ''): #proxy: ip:port:username:password or ip:port
     #them cac tham so de khoi tao

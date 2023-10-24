@@ -7,6 +7,7 @@ import random, time, pf
 class Twitter():
     def __init__(self, gologin:pf.ProfileGL):
         gologin.openTab('https://mobile.twitter.com')
+        self.tab_id = gologin.driver.current_window_handle
 
     def isLogin(self, gologin:pf.ProfileGL) -> bool:
         try:

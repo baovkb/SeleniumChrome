@@ -19,7 +19,6 @@ class ProfileGL():
         self.options.add_argument('--disable-popup-blocking')
         self.options.add_argument('--disable-notifications')
         self.options.add_argument('--no-service-autorun')
-        self.tab_ids = []
 
     def openGL(self, profile_id, proxy = ''):
         profile_path = os.path.join(user_data_path, str(profile_id))
@@ -35,7 +34,6 @@ class ProfileGL():
             self.options.add_argument('--proxy-server=%s' %(infoProxy[0] + ':' + infoProxy[1]))
         try:
             self.driver = webdriver.Chrome(driver_executable_path = driver_path, options = self.options)
-            self.tab_ids.append(self.driver.current_window_handle)
         except: return None
 
     def openTab(self, url: str, isFirstTab = False):
@@ -45,7 +43,6 @@ class ProfileGL():
                 self.driver.switch_to.window(self.driver.window_handles[-1])
                 self.driver.execute_script("window.open()")
                 self.driver.switch_to.window(self.driver.window_handles[-1])
-                self.tab_ids.append(self.driver.current_window_handle)
 
             self.driver.get(url)
             time.sleep(0.5)
@@ -53,10 +50,8 @@ class ProfileGL():
                 raise Exception('cannot open url')
         except: raise ValueError('url is invalid')
 
-    def closeTab(self, tab_id):
-        if self.selectTab(tab_id=tab_id):
-            self.driver.close()
-            self.tab_ids.remove(tab_id)
+    def closeTab(self):
+        self.driver.close()
         self.driver.switch_to.window(self.driver.window_handles[0])
     
     def selectTab(self, tab_id) -> bool:
@@ -93,6 +88,7 @@ class ProfileGL():
             self.openTab(listUrl[j], False)
             j = j + 1
         self.driver.switch_to.window(self.driver.window_handles[0])
+
     def navigate(self, url:str):
         self.driver.get(url)
 

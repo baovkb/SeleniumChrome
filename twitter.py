@@ -2,14 +2,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import IOFile as file
-import random, time, pf
+import random, time, goprofile
 
 class Twitter():
-    def __init__(self, gologin:pf.ProfileGL):
+    def __init__(self, gologin:goprofile.ProfileGL):
         gologin.openTab('https://mobile.twitter.com')
         self.tab_id = gologin.driver.current_window_handle
 
-    def isLogin(self, gologin:pf.ProfileGL) -> bool:
+    def isLogin(self, gologin:goprofile.ProfileGL) -> bool:
         try:
             WebDriverWait(gologin.driver, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Account menu']")))
             return True
@@ -21,12 +21,12 @@ class Twitter():
                 link[i] = link[i][0:8] + 'mobile.' + link[i][8:]
         return link
     
-    def closeTab(self, gologin:pf.ProfileGL):
+    def closeTab(self, gologin:goprofile.ProfileGL):
         gologin.selectTab(self.tab_id)
         gologin.closeTab()
         self.tab_id = None
 
-    def follow(self, gologin:pf.ProfileGL, link:list):
+    def follow(self, gologin:goprofile.ProfileGL, link:list):
         driver = gologin.driver
         for i in link:
             gologin.navigate(i)     
@@ -38,7 +38,7 @@ class Twitter():
             except: pass
             time.sleep(0.5)
 
-    def login(self, gologin: pf.ProfileGL, password):
+    def login(self, gologin: goprofile.ProfileGL, password):
         driver = gologin.driver
         wait = WebDriverWait(driver, 5)
         username = file.getInfoProfile(gologin.profile_id)
@@ -61,7 +61,7 @@ class Twitter():
         except: pass
 
 
-    def like(self, gologin:pf.ProfileGL, link:list):
+    def like(self, gologin:goprofile.ProfileGL, link:list):
         driver = gologin.driver
         for i in link:
             gologin.navigate(i)
@@ -72,7 +72,7 @@ class Twitter():
             except: pass
             time.sleep(0.5)
 
-    def retweet(self, gologin:pf.ProfileGL, link:list):
+    def retweet(self, gologin:goprofile.ProfileGL, link:list):
         driver = gologin.driver
         for i in link:
             gologin.navigate(i)
@@ -89,7 +89,7 @@ class Twitter():
             time.sleep(0.5)
 
 
-    def quoteTweet(self, gologin:pf.ProfileGL, link:list, numTag = 0) -> list:
+    def quoteTweet(self, gologin:goprofile.ProfileGL, link:list, numTag = 0) -> list:
         driver = gologin.driver
         llink_quote = []
         for i in link:
@@ -124,7 +124,7 @@ class Twitter():
             except: pass
         return llink_quote
 
-    def tweetByLink(self, gologin:pf.ProfileGL, link:list):
+    def tweetByLink(self, gologin:goprofile.ProfileGL, link:list):
         driver = gologin.driver
         for i in link:
             gologin.navigate(i)
@@ -140,7 +140,7 @@ class Twitter():
             time.sleep(0.5)
 
 
-    def getNewestTweet(self, gologin: pf.ProfileGL) -> str:
+    def getNewestTweet(self, gologin: goprofile.ProfileGL) -> str:
         Info = file.getInfoProfile(gologin.profile_id)
         driver = gologin.driver
         driver.get(Info['linkTwitter'])
@@ -151,7 +151,7 @@ class Twitter():
         return self.formatLink([driver.current_url])[0]
     
 
-    def commment(self, gologin: pf.ProfileGL, numTag = 0):
+    def commment(self, gologin: goprofile.ProfileGL, numTag = 0):
         driver = gologin.driver
         Info = file.getInfoProfile(gologin.profile_id)
         # text = random_text(numTag)

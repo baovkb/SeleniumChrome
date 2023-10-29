@@ -3,11 +3,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import IOFile as file
-import random, time, pf
+import random, time, goprofile
 
 
 def init(driver):
-    pf.openTab(driver, 'https://mail.google.com/mail/u/0/h/1imt096xqt7k2')
+    goprofile.openTab(driver, 'https://mail.google.com/mail/u/0/h/1imt096xqt7k2')
     try:
         WebDriverWait(driver, 1.5).until(EC.presence_of_element_located((By.XPATH, '//*[@id="maia-main"]/form/p/input'))).click()
     except: pass

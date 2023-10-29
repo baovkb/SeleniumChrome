@@ -8,14 +8,14 @@ import IOFile as file
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-import pf, time, random
+import goprofile, time, random
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import Select
 import metamask as meta
 import mail
 
 def init(driver, url):
-    pf.openTab(driver, url)
+    goprofile.openTab(driver, url)
 
 def destruct(driver):
     try:
@@ -609,7 +609,7 @@ def zeta(driver, url):
             if len(driver.window_handles) > numTab:
                 driver.switch_to.window(driver.window_handles[-1])
             else:
-                pf.openTab(driver, 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html')
+                goprofile.openTab(driver, 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html')
                 driver.switch_to.window(driver.window_handles[-1])
             approve = WebDriverWait(driver, 7).until(EC.presence_of_element_located((By.XPATH, '//button[@data-testid="page-container-footer-next"]')))
             driver.execute_script("arguments[0].click();", approve)
@@ -624,7 +624,7 @@ def zeta(driver, url):
         if len(driver.window_handles) > numTab:
             driver.switch_to.window(driver.window_handles[-1])
         else:
-            pf.openTab(driver, 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html')
+            goprofile.openTab(driver, 'chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn/home.html')
             driver.switch_to.window(driver.window_handles[-1])
         swap = WebDriverWait(driver, 7).until(EC.element_to_be_clickable((By.XPATH, '//button[@data-testid="page-container-footer-next"]')))
         driver.execute_script("arguments[0].click();", swap)

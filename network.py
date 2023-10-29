@@ -1,9 +1,6 @@
 import http.client as httplib
 import requests, time, subprocess
 
-Viettel = '{E36F2B0D-EB98-44EB-ABDC-A96AF8C2B052}'
-Vina = '{2D591E2D-3C44-43BB-AF41-2FAB16FADA9B}'
-
 class Cellular():
     def __init__(self) -> None:
         shell = subprocess.Popen('netsh mbn show profiles', shell=True, stdout=subprocess.PIPE)
@@ -19,7 +16,7 @@ class Cellular():
             st = st + 1
         shell.terminate()
         self.name_cellular = name_cellular
-        self.name_profile = '{2D591E2D-3C44-43BB-AF41-2FAB16FADA9B}'
+        self.name_profile = '{2D591E2D-3C44-43BB-AF41-2FAB16FADA9B}' #profile tu tao, tao bang phan mem Windows Imaging and Configuration Designer (WICD)
 
     def isConnect(self):
         conn = httplib.HTTPSConnection("8.8.8.8", timeout=1.5)

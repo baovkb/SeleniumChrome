@@ -1,4 +1,4 @@
-import time, pf, IOFile
+import time, goprofile, IOFile
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -81,7 +81,7 @@ class Metamask():
         except: raise ValueError
 
 def turnoff(driver):
-    pf.openTab(driver, 'chrome://extensions/')
+    goprofile.openTab(driver, 'chrome://extensions/')
     try:
             # first shadow root, call from driver
             elem1 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.TAG_NAME, 'extensions-manager')))

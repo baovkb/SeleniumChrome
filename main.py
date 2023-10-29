@@ -33,8 +33,7 @@ def main():
     id = 1
     getInfo = None
     file.init() #file luu lai ket qua
-    eDcom = network.isDcom()
-    eEtherNet = network.isEthernet()
+    dcom = network.Cellular()
     
     while id <= 100:
         numTry = 0
@@ -51,20 +50,11 @@ def main():
         if opt != 5:
             opt = int(input('Chuc nang: '))
         if opt == 5:
-            if eDcom == False and proxyy == '':
-                while network.isConnect() == True:
-                    print('Ngat ket noi 3g/4g')
-                    time.sleep(0.5)
             try:
                 gologin = gologin.closeGL()
             except: pass
-        if opt == 1 or opt == 2:
-            if opt == 2:
-                index_input = int(input('Index:'))
-            if eEtherNet == True:
-                while network.isConnect() == True:
-                    print('Ngat ket noi 3g/4g')
-                    time.sleep(0.5)
+        if opt == 2:
+            index_input = int(input('Index:'))
         elif opt == 3:
             getInfo = file.OpenNodeInfo(id - 1)
             continue
@@ -72,10 +62,8 @@ def main():
         if gologin is not None:
             gologin = gologin.closeGL()
         
-        if eDcom == True:
-            network.changeIpDcom()
+        dcom.changeIP()
 
-        
         while numTry < 3:
             try:
                 #dong cac app va profile

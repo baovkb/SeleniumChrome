@@ -1,21 +1,19 @@
 from selenium import webdriver
 import undetected_chromedriver as webdriver
-import time, copy, os
-from selenium.webdriver.common.by import By
-import network, IOFile as file
-from pathlib import Path
+import time, os, tabs
+import IOFile as file
+from tabs import Tabs
 
 browser_path = r'D:\MMO\Gologin\orbita-browser\chrome.exe'
 user_data_path = r'D:\MMO\Gologin'
 driver_path = r'.\chromedriver\chromedriver.exe'
 
-class ProfileGL():
+class ProfileGL(Tabs):
     def __init__(self) -> None:
         self.options = webdriver.ChromeOptions()
         self.options.binary_location = browser_path
         #self.options.add_argument('--load-extension=D:\\MMO\\Gologin\\extensions\Venom')
-        #self.options.add_argument('--profile-directory=Default')
-        self.options.add_argument('--load-extension=D:\\MMO\\Gologin\\extensions\Metamask')
+        #self.options.add_argument('--load-extension=D:\\MMO\\Gologin\\extensions\Metamask')
         self.options.add_argument('--disable-popup-blocking')
         self.options.add_argument('--disable-notifications')
         self.options.add_argument('--no-service-autorun')
@@ -36,32 +34,32 @@ class ProfileGL():
             self.driver = webdriver.Chrome(driver_executable_path = driver_path, options = self.options)
         except: return None
 
-    def openTab(self, url: str, isFirstTab = False):
-        try:
-            if isFirstTab == False:
-                #driver.tab_new(url)
-                self.driver.switch_to.window(self.driver.window_handles[-1])
-                self.driver.execute_script("window.open()")
-                self.driver.switch_to.window(self.driver.window_handles[-1])
+    # def openTab(self, url: str, isFirstTab = False):
+    #     try:
+    #         if isFirstTab == False:
+    #             #driver.tab_new(url)
+    #             self.driver.switch_to.window(self.driver.window_handles[-1])
+    #             self.driver.execute_script("window.open()")
+    #             self.driver.switch_to.window(self.driver.window_handles[-1])
 
-            self.driver.get(url)
-            time.sleep(0.5)
-            if self.driver.current_url == 'chrome://new-tab-page/': 
-                raise Exception('cannot open url')
-        except: raise ValueError('url is invalid')
+    #         self.driver.get(url)
+    #         time.sleep(0.5)
+    #         if self.driver.current_url == 'chrome://new-tab-page/': 
+    #             raise Exception('cannot open url')
+    #     except: raise ValueError('url is invalid')
 
-    def closeTab(self):
-        self.driver.close()
-        self.driver.switch_to.window(self.driver.window_handles[0])
+    # def closeTab(self):
+    #     self.driver.close()
+    #     self.driver.switch_to.window(self.driver.window_handles[0])
     
-    def selectTab(self, tab_id) -> bool:
-        i = 0
-        for j in self.driver.window_handles:
-            if j == tab_id:
-                self.driver.switch_to.window(self.driver.window_handles[i])
-                return True
-            i = i + 1
-        return False
+    # def selectTab(self, tab_id) -> bool:
+    #     i = 0
+    #     for j in self.driver.window_handles:
+    #         if j == tab_id:
+    #             self.driver.switch_to.window(self.driver.window_handles[i])
+    #             return True
+    #         i = i + 1
+    #     return False
 
     def closeGL(self):
         if self.driver is None:
@@ -88,9 +86,6 @@ class ProfileGL():
             self.openTab(listUrl[j], False)
             j = j + 1
         self.driver.switch_to.window(self.driver.window_handles[0])
-
-    def navigate(self, url:str):
-        self.driver.get(url)
 
 def openProfile(indexProfile, proxy = ''): #proxy: ip:port:username:password or ip:port
     #them cac tham so de khoi tao
@@ -170,3 +165,5 @@ def closeProfile(driver):
         driver.quit()
         pass
     except: pass
+
+

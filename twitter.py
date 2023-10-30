@@ -1,17 +1,23 @@
+from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+import undetected_chromedriver as webdriver
 import IOFile as file
-import random, time, goprofile
+import random, time
+from tabs import Tabs
+import goprofile
 
-class Twitter():
-    def __init__(self, gologin:goprofile.ProfileGL):
-        gologin.openTab('https://mobile.twitter.com')
-        self.tab_id = gologin.driver.current_window_handle
+class Twitter(Tabs):
+    def __init__(self):
+        super().__init__()
+    
+    def openTab(self, driver: webdriver):
+        super().openTab(driver, 'https://mobile.twitter.com/')
 
-    def isLogin(self, gologin:goprofile.ProfileGL) -> bool:
+    def isLogin(self, driver: webdriver) -> bool:
         try:
-            WebDriverWait(gologin.driver, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Account menu']")))
+            WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Account menu']")))
             return True
         except: return False
 
@@ -20,16 +26,10 @@ class Twitter():
             if link[i].find('mobile') == -1:
                 link[i] = link[i][0:8] + 'mobile.' + link[i][8:]
         return link
-    
-    def closeTab(self, gologin:goprofile.ProfileGL):
-        gologin.selectTab(self.tab_id)
-        gologin.closeTab()
-        self.tab_id = None
 
-    def follow(self, gologin:goprofile.ProfileGL, link:list):
-        driver = gologin.driver
+    def follow(self, driver: webdriver, link:list):
         for i in link:
-            gologin.navigate(i)     
+            driver.get(i)     
             try:
                 follw_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//span[text() = 'Follow' or text() = 'Following']")))
                 if follw_button.text == 'Follow':
@@ -43,7 +43,7 @@ class Twitter():
         wait = WebDriverWait(driver, 5)
         username = file.getInfoProfile(gologin.profile_id)
         username = username['userTwitter']
-        gologin.navigate('https://mobile.twitter.com/i/flow/login')
+        driver.get('https://mobile.twitter.com/i/flow/login')
         try:
             wait.until(EC.presence_of_element_located((By.XPATH, '//input[@autocomplete="username"]'))).send_keys(username)
             element = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, '.css-901oao.css-16my406.r-poiln3.r-bcqeeo.r-qvutc0')))
@@ -61,21 +61,19 @@ class Twitter():
         except: pass
 
 
-    def like(self, gologin:goprofile.ProfileGL, link:list):
-        driver = gologin.driver
+    def like(self, driver: webdriver, link:list):
         for i in link:
-            gologin.navigate(i)
+            driver.get(i)
             try:
-                like_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Like' or @aria-label='Liked']")))
+                like_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@data-testid='like' or @data-testid='unlike']")))
                 if like_button.accessible_name == 'Like':
                     driver.execute_script("arguments[0].click();", like_button)
             except: pass
             time.sleep(0.5)
 
-    def retweet(self, gologin:goprofile.ProfileGL, link:list):
-        driver = gologin.driver
+    def retweet(self, driver: webdriver, link:list):
         for i in link:
-            gologin.navigate(i)
+            driver.get(i)
             try:
                 retweet_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Retweet' or @aria-label='Retweeted']")))
                 if retweet_button.accessible_name == 'Retweet':
@@ -89,12 +87,12 @@ class Twitter():
             time.sleep(0.5)
 
 
-    def quoteTweet(self, gologin:goprofile.ProfileGL, link:list, numTag = 0) -> list:
-        driver = gologin.driver
+    def quoteTweet(self, gologin: goprofile.ProfileGL, link:list, numTag = 0) -> list:
         llink_quote = []
+        driver = gologin.driver
         for i in link:
             text = random_text(numTag)
-            gologin.navigate(i)
+            driver.get(i)
             try:
                 retweet_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@aria-label='Retweet' or @aria-label='Retweeted']")))
                 driver.execute_script("arguments[0].click();", retweet_button)
@@ -124,10 +122,9 @@ class Twitter():
             except: pass
         return llink_quote
 
-    def tweetByLink(self, gologin:goprofile.ProfileGL, link:list):
-        driver = gologin.driver
+    def tweetByLink(self, driver: webdriver, link:list):
         for i in link:
-            gologin.navigate(i)
+            driver.get(i)
             try:
                 tweet_button = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.XPATH, "//div[@data-testid='tweetButton']")))
                 driver.execute_script("arguments[0].click();", tweet_button)

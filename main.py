@@ -1,6 +1,7 @@
 import sys, time, os, random, testnet
-import twitter, metamask
-import pf, network, gleam, mail
+from twitter import Twitter
+from metamask import Metamask
+import goprofile, network, gleam, mail
 import IOFile as file
 import Fill as fill
 
@@ -73,7 +74,7 @@ def main():
                     gologin = gologin.closeGL()
                 print('Dong profile thanh cong')
 
-                gologin = pf.ProfileGL() #create gologin
+                gologin = goprofile.ProfileGL() #create gologin
                 if opt == 1:
                     gologin.openGL(id, proxyy)
                     #driver = profile.openProfile(id, proxyy)
@@ -87,7 +88,11 @@ def main():
                 else: sys.exit()
 
                 #chay profile va lam task
-                gologin.openMultiTab(url)         
+                gologin.openTab(gologin.driver, 'https://chrome.google.com/webstore?hl=vi')
+                tw = Twitter()
+                tw.openTab(gologin.driver)
+                tw.like(gologin.driver, ['https://mobile.twitter.com/Starknet/status/1718538284840649066'])
+                gologin.selectTab(gologin.driver)
 
                 break
             except ValueError:

@@ -8,11 +8,10 @@ class Tabs():
 
     def openTab(self, driver:webdriver, url: str):
         try:
-            if driver.current_url != "chrome://new-tab-page/":
                 #driver.tab_new(url)
-                driver.switch_to.window(driver.window_handles[-1])
-                driver.execute_script("window.open()")
-                driver.switch_to.window(driver.window_handles[-1])
+            driver.switch_to.window(driver.window_handles[-1])
+            driver.execute_script("window.open()")
+            driver.switch_to.window(driver.window_handles[-1])
 
             driver.get(url)
             time.sleep(0.5)

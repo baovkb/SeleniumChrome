@@ -4,6 +4,7 @@ from metamask import Metamask
 import goprofile, network, gleam, mail
 import IOFile as file
 import Fill as fill
+from menu import Menu
 
 def main():
     url = [
@@ -74,7 +75,7 @@ def main():
                     gologin = gologin.closeGL()
                 print('Dong profile thanh cong')
 
-                gologin = goprofile.ProfileGL() #create gologin
+                gologin = goprofile.ProfileGL('--load-extension=D:\\MMO\\Gologin\\extensions\Metamask') #create gologin
                 if opt == 1:
                     gologin.openGL(id, proxyy)
                     #driver = profile.openProfile(id, proxyy)
@@ -89,10 +90,8 @@ def main():
 
                 #chay profile va lam task
                 gologin.openTab(gologin.driver, 'https://chrome.google.com/webstore?hl=vi')
-                tw = Twitter()
-                tw.openTab(gologin.driver)
-                tw.like(gologin.driver, ['https://mobile.twitter.com/Starknet/status/1718538284840649066'])
-                gologin.closeTab(gologin.driver)
+                meta = Metamask(gologin.driver)
+                meta.openTab(gologin.driver)
 
                 break
             except ValueError:
@@ -108,4 +107,4 @@ def main():
     
 
 if __name__ == '__main__': 
-    main()
+    Menu().run()

@@ -9,11 +9,11 @@ user_data_path = r'D:\MMO\Gologin'
 driver_path = r'.\chromedriver\chromedriver.exe'
 
 class ProfileGL(Tabs):
-    def __init__(self) -> None:
+    def __init__(self, *args) -> None:
         self.options = webdriver.ChromeOptions()
         self.options.binary_location = browser_path
-        #self.options.add_argument('--load-extension=D:\\MMO\\Gologin\\extensions\Venom')
-        #self.options.add_argument('--load-extension=D:\\MMO\\Gologin\\extensions\Metamask')
+        for arg in args:
+            self.options.add_argument(arg)
         self.options.add_argument('--disable-popup-blocking')
         self.options.add_argument('--disable-notifications')
         self.options.add_argument('--no-service-autorun')
@@ -32,6 +32,7 @@ class ProfileGL(Tabs):
             self.options.add_argument('--proxy-server=%s' %(infoProxy[0] + ':' + infoProxy[1]))
         try:
             self.driver = webdriver.Chrome(driver_executable_path = driver_path, options = self.options)
+            return self
         except: return None
 
     def closeGL(self):

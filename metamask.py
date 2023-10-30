@@ -13,7 +13,6 @@ urlMetamask = 'chrome-extension://' + id + '/home.html#'
 class Metamask(Tabs):
     def __init__(self, driver: webdriver): 
         super().__init__()
-
         super().openTab(driver, urlMetamask)
         if driver.title != 'MetaMask':         
             driver.get('chrome://extensions/')

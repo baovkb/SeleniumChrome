@@ -92,7 +92,7 @@ def main():
                 tw = Twitter()
                 tw.openTab(gologin.driver)
                 tw.like(gologin.driver, ['https://mobile.twitter.com/Starknet/status/1718538284840649066'])
-                gologin.selectTab(gologin.driver)
+                gologin.closeTab(gologin.driver)
 
                 break
             except ValueError:

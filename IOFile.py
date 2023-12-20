@@ -1,4 +1,4 @@
-import subprocess, json, shutil, os
+import subprocess, json, pathlib, os
 
 result_path = './data/result.txt'
 
@@ -8,11 +8,19 @@ class IOfile:
             os.remove(result_path)
         with open(result_path, 'x') as res: pass
 
+
     def readFile(path, line):
         with open(path, 'r', encoding='utf-8') as fp:
             for i in range(0, line):
                 txt = fp.readline()
             return txt.replace('\n', '')
+    def readJson(path):
+        try:
+            with open(path, 'r', encoding='utf-8') as oF:
+                iFile = json.load(oF)
+                return iFile
+        except: 
+            raise Exception
 
 def init():
     try:
@@ -90,35 +98,6 @@ def countTweetText():
     except: 
         raise Exception
 
-def getTweetText(index):
-    try:
-        txt = ''
-        fTw = open('.\\data\\rw_text.txt', 'r')
-        for i in range(0, index):
-            txt = fTw.readline()
-        fTw.close()
-        return txt
-    except: raise Exception
-
-def getPhrase(index):
-    try:
-        txt = ''
-        fTw = open("D:\\MMO\\wallet\\new\\recovery_phrase.txt", 'r')
-        for i in range(0, index):
-            txt = fTw.readline()
-        fTw.close()
-        return txt.replace('\n', '')
-    except: raise Exception
-
-def getPk(index):
-    try:
-        txt = ''
-        fTw = open("D:\\MMO\\wallet\\privatekey_evm.txt", 'r')
-        for i in range(0, index):
-            txt = fTw.readline()
-        fTw.close()
-        return txt.replace('\n', '')
-    except: raise Exception
 
 def resultRecord(indexProfile, numTry):
     with open('.\\data\\result.txt', 'a') as result:
@@ -126,29 +105,6 @@ def resultRecord(indexProfile, numTry):
             result.write('Profile ' + str(indexProfile) + ' hoan tat\n')
         else: result.write('Profile ' + str(indexProfile) + ' bi loi\n')
 
-def readAddress(index):
-    with open("D:\\MMO\\wallet\\rdx_add.txt", 'r') as re:
-        for i in range(0, index):
-            result =re.readline()
-        result = result.replace('\n', '')
-        result = result.replace(' ', '')
-    return result
-
-def readFile(path:str, ind):
-    with open(path, 'r') as re:
-        for i in range(0, ind):
-            result =re.readline()
-        result = result.replace('\n', '')
-        result = result.replace(' ', '')
-    return result
-
-
-def readFeedback(index):
-    with open("D:\\MMO\\Others\\feedback.txt", 'r') as re:
-        for i in range(0, index):
-            result = re.readline()
-        result = result.replace('\n', '')
-    return result
 
 def OpenNodeInfo(indexProfile):
     outInfo(indexProfile)

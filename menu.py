@@ -2,6 +2,7 @@ import sys
 from network import Cellular
 from goprofile import ProfileGL
 from metamask import Metamask
+from twitter import Twitter
 
 class Menu():
     def __init__(self) -> None:
@@ -10,6 +11,9 @@ class Menu():
             "2" : self.openAsDirected,
             "3" : self.openAuto
         }
+
+        self.urls = [
+        ]
 
     def show_menu(self):
         print('''
@@ -31,9 +35,10 @@ class Menu():
             if action:
                 while id <= 100:
                     id, gologin = action(id, gologin, dcom)
+                    gologin.openTabs(gologin.driver, self.urls)
                     #do task
-                    meta = Metamask(gologin.driver)
-                    meta.openTab(gologin.driver)
+
+
 
                     if opt != "3": break
             else: exit(0)
@@ -42,7 +47,10 @@ class Menu():
         if gologin is not None:
             gologin = gologin.closeGL()
         dcom.changeIP()
-        gologin = ProfileGL()
+        #them dau phay sau duong dan extension neu muon load nhieu extension
+        #vd --load-extension=D:\MMO\gologin\extensions\grass,D:\MMO\gologin\extensions\metamask
+        gologin = ProfileGL('--load-extension=D:\MMO\gologin\extensions\grass'
+        )
         if not gologin.openGL(id):
             print("Fail to open Gologin")
             exit(-1)

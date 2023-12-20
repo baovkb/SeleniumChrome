@@ -8,17 +8,22 @@ class Tabs():
 
     def openTab(self, driver:webdriver, url: str):
         try:
-                #driver.tab_new(url)
-            driver.switch_to.window(driver.window_handles[-1])
-            driver.execute_script("window.open()")
+            #driver.tab_new(url)
+            try:
+                driver.switch_to.window(driver.window_handles[-1])
+                driver.execute_script("window.open()")
+            except:
+                driver.tab_new(url)
             driver.switch_to.window(driver.window_handles[-1])
 
             driver.get(url)
             time.sleep(0.5)
             self.tab_id = driver.current_window_handle
-            if driver.current_url == 'chrome://new-tab-page/': 
-                raise Exception('cannot open url')
-        except: raise ValueError('url is invalid')
+        except: pass
+
+    def openTabs(self, driver:webdriver, urls: list):
+        for url in urls:
+            self.openTab(driver, url)
 
     def closeTab(self, driver:webdriver):
         if self.selectTab(driver) is True:

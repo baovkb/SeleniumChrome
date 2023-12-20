@@ -7,7 +7,6 @@ import goprofile, time, random
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import Select
 import metamask as meta
-import mail
 
 def init(driver, url):
     goprofile.openTab(driver, url)

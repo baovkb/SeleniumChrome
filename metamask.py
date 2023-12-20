@@ -13,24 +13,24 @@ urlMetamask = 'chrome-extension://' + id + '/home.html#'
 class Metamask(Tabs):
     def __init__(self, driver: webdriver): 
         super().__init__()
-        super().openTab(driver, urlMetamask)
-        if driver.title != 'MetaMask':         
-            driver.get('chrome://extensions/')
-            # first shadow root, call from driver
-            elem1 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.TAG_NAME, 'extensions-manager')))
-            shadow_root1 = driver.execute_script("return arguments[0].shadowRoot", elem1)
-            # second shadow_root, call from shadow_root1
-            elem2 = shadow_root1.find_element(By.CSS_SELECTOR, 'extensions-item-list[id = "items-list"]')
-            shadow_root2 = driver.execute_script("return arguments[0].shadowRoot", elem2)
-            # third shadow_root, call from shadow_root2
-            #nkbihfbeogaeaoehlefnkodbefgpgknn
-            ele = 'extensions-item[id="%s"]' %(id)
-            elem3 = shadow_root2.find_element(By.CSS_SELECTOR, ele)
-            shadow_root3 = driver.execute_script("return arguments[0].shadowRoot", elem3)
-            reload_button = shadow_root3.find_element(By.CSS_SELECTOR, 'cr-button[id="terminated-reload-button"]')
-            driver.execute_script("arguments[0].click();", reload_button)
-            driver.get(urlMetamask)
-        super().closeTab(driver)
+        # super().openTab(driver, urlMetamask)
+        # if driver.title != 'MetaMask':         
+        #     driver.get('chrome://extensions/')
+        #     # first shadow root, call from driver
+        #     elem1 = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.TAG_NAME, 'extensions-manager')))
+        #     shadow_root1 = driver.execute_script("return arguments[0].shadowRoot", elem1)
+        #     # second shadow_root, call from shadow_root1
+        #     elem2 = shadow_root1.find_element(By.CSS_SELECTOR, 'extensions-item-list[id = "items-list"]')
+        #     shadow_root2 = driver.execute_script("return arguments[0].shadowRoot", elem2)
+        #     # third shadow_root, call from shadow_root2
+        #     #nkbihfbeogaeaoehlefnkodbefgpgknn
+        #     ele = 'extensions-item[id="%s"]' %(id)
+        #     elem3 = shadow_root2.find_element(By.CSS_SELECTOR, ele)
+        #     shadow_root3 = driver.execute_script("return arguments[0].shadowRoot", elem3)
+        #     reload_button = shadow_root3.find_element(By.CSS_SELECTOR, 'cr-button[id="terminated-reload-button"]')
+        #     driver.execute_script("arguments[0].click();", reload_button)
+        #     driver.get(urlMetamask)
+        # super().closeTab(driver)
         
     def openTab(self, driver: webdriver):
         super().openTab(driver, urlMetamask)

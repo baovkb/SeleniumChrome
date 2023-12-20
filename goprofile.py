@@ -4,8 +4,8 @@ import time, os, tabs
 import IOFile as file
 from tabs import Tabs
 
-browser_path = r'D:\MMO\Gologin\orbita-browser\chrome.exe'
-user_data_path = r'D:\MMO\Gologin'
+browser_path = r'D:\MMO\gologin\orbita-browser\chrome.exe'
+user_data_path = r'D:\MMO\Gologin_tmp'
 driver_path = r'.\chromedriver\chromedriver.exe'
 
 class ProfileGL(Tabs):
@@ -17,6 +17,7 @@ class ProfileGL(Tabs):
         self.options.add_argument('--disable-popup-blocking')
         self.options.add_argument('--disable-notifications')
         self.options.add_argument('--no-service-autorun')
+        self.options.add_argument('--disable-features=ExtensionsToolbarMenu,ChromeLabs,ReadLater,TriggerNetworkDataMigration,ChromeWhatsNewUI,ViewportHeightClientHintHeader')
 
     def openGL(self, profile_id, proxy = ''):
         profile_path = os.path.join(user_data_path, str(profile_id))

@@ -1,4 +1,18 @@
-import subprocess, json, shutil
+import subprocess, json, shutil, os
+
+result_path = './data/result.txt'
+
+class IOfile:
+    def __init__(self) -> None:
+        if os.path.exists(result_path):
+            os.remove(result_path)
+        with open(result_path, 'x') as res: pass
+
+    def readFile(path, line):
+        with open(path, 'r', encoding='utf-8') as fp:
+            for i in range(0, line):
+                txt = fp.readline()
+            return txt.replace('\n', '')
 
 def init():
     try:
@@ -132,7 +146,7 @@ def readFile(path:str, ind):
 def readFeedback(index):
     with open("D:\\MMO\\Others\\feedback.txt", 'r') as re:
         for i in range(0, index):
-            result =re.readline()
+            result = re.readline()
         result = result.replace('\n', '')
     return result
 

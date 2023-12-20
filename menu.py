@@ -10,7 +10,6 @@ class Menu():
         self.choices = {
             "1" : self.OpenMultiThread,
             "2" : self.openAsDirected,
-            "3" : self.openAuto
         }
 
         self.urls = [
@@ -20,7 +19,6 @@ class Menu():
         print('''
             1. Open in order
             2. Open as directed
-            3. Open automatically
             '''
         )
 
@@ -29,27 +27,34 @@ class Menu():
         listGologin = None
         net = DetectNetwork()
         proxy = False
-        listId = [8]
+        num_thread = 3
+        id = 101
 
         while True:
             self.show_menu()
             opt = input("Enter an option: ")
             action = self.choices.get(opt)
             if action:
+                if action == self.openAsDirected:
+                    id = int(input('index: '))
                 #close previous seasions if not using proxy before open new one
                 if listGologin is not None and proxy == False:
                     for l in listGologin:
                         l.closeGL()
                 #change ip if not using proxy and length of list id is 1
-                if len(listId) == 1 and proxy == False:
+                if proxy == False:
                     net.changeIP()
-                while id <= 100:
-                    listGologin = action(listId=listId, proxy=proxy)
+                while id <= 110:
+                    listGologin = action(listId=[i for i in range(id, id + num_thread)], proxy=proxy)
                     #do task
-
+                    id += num_thread
 
                     if opt != "3": break
             else: exit(0)
+
+    def openAsDirected(self, listId: list, proxy):
+        return self.OpenMultiThread(listId=listId, proxy=proxy)
+
 
     def drive(self, id, proxy:bool):
         #them dau phay sau duong dan extension neu muon load nhieu extension
@@ -66,14 +71,6 @@ class Menu():
         #do something in here
 
         return gologin
-
-    def openAsDirected(self, id, gologin, net):
-        direct = int(input("Input profile number: "))
-        id = direct
-        return self.openInOrder(id, gologin, net)
-    
-    def openAuto(self, id, gologin, net):
-        return self.openInOrder(id, gologin, net)
     
     def OpenMultiThread(self, listId: list, proxy):
         listThread = []

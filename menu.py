@@ -1,5 +1,5 @@
 import sys
-from network import Cellular
+from network import DetectNetwork
 from goprofile import ProfileGL
 from metamask import Metamask
 from twitter import Twitter
@@ -26,7 +26,7 @@ class Menu():
     def run(self):
         id = 1
         gologin = None
-        dcom = Cellular()
+        net = DetectNetwork()
 
         while True:
             self.show_menu()
@@ -34,7 +34,7 @@ class Menu():
             action = self.choices.get(opt)
             if action:
                 while id <= 100:
-                    id, gologin = action(id, gologin, dcom)
+                    id, gologin = action(id, gologin, net)
                     gologin.openTabs(gologin.driver, self.urls)
                     #do task
 
@@ -43,24 +43,24 @@ class Menu():
                     if opt != "3": break
             else: exit(0)
 
-    def openInOrder(self, id, gologin, dcom):
+    def openInOrder(self, id, gologin, net):
         if gologin is not None:
             gologin = gologin.closeGL()
-        dcom.changeIP()
+        net.changeIP()
         #them dau phay sau duong dan extension neu muon load nhieu extension
         #vd --load-extension=D:\MMO\gologin\extensions\grass,D:\MMO\gologin\extensions\metamask
         gologin = ProfileGL('--load-extension=D:\MMO\gologin\extensions\grass'
         )
-        if not gologin.openGL(id):
+        if not gologin.openGL(profile_id=id):
             print("Fail to open Gologin")
             exit(-1)
         id += 1
         return id, gologin
 
-    def openAsDirected(self, id, gologin, dcom):
+    def openAsDirected(self, id, gologin, net):
         direct = int(input("Input profile number: "))
         id = direct
-        return self.openInOrder(id, gologin, dcom)
+        return self.openInOrder(id, gologin, net)
     
-    def openAuto(self, id, gologin, dcom):
-        return self.openInOrder(id, gologin, dcom)
+    def openAuto(self, id, gologin, net):
+        return self.openInOrder(id, gologin, net)

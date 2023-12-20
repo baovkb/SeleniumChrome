@@ -31,6 +31,7 @@ class ProfileGL(Tabs):
                 file.changeAuthyProxy(profile_id)
             else: raise Exception
             self.options.add_argument('--proxy-server=%s' %(infoProxy[0] + ':' + infoProxy[1]))
+            #options.add_argument('--proxy-server=proxy_username:proxy_password@proxy_ip:proxy_port')
         try:
             self.driver = webdriver.Chrome(driver_executable_path = driver_path, options = self.options)
             return self
